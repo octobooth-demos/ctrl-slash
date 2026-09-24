@@ -4,10 +4,17 @@
 const Sfx = {
   ctx: null, master: null, noise: null, muted: save.muted, lastSwoosh: 0,
   unlock() {
-    if (this.ctx) { if (this.ctx.state === 'suspended') this.ctx.resume(); return; }
+    // iOS: without this, Web Audio is silenced by the ring/silent switch (Safari with navigator.audioSession)
+    try { if (navigator.audioSession) navigator.audioSession.type = 'playback'; } catch { /* unsupported */ }
+    if (this.ctx) {
+      if (this.ctx.state !== 'running') this.ctx.resume().catch(() => {});
+      this.kick();
+      return;
+    }
     const AC = window.AudioContext || window.webkitAudioContext;
     if (!AC) return;
     this.ctx = new AC();
+    this.kick();
     const comp = this.ctx.createDynamicsCompressor();
     comp.threshold.value = -14; comp.ratio.value = 6;
     this.master = this.ctx.createGain(); this.master.gain.value = this.muted ? 0 : 0.6;
@@ -15,6 +22,14 @@ const Sfx = {
     const len = this.ctx.sampleRate; const buf = this.ctx.createBuffer(1, len, this.ctx.sampleRate);
     const d = buf.getChannelData(0); for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
     this.noise = buf;
+  },
+  // Older iOS only unlocks after a sound starts inside the gesture, so play one silent sample.
+  kick() {
+    if (this.kicked && this.ctx.state === 'running') return;
+    try {
+      const s = this.ctx.createBufferSource(); s.buffer = this.ctx.createBuffer(1, 1, 22050);
+      s.connect(this.ctx.destination); s.start(0); this.kicked = true;
+    } catch { /* ignore */ }
   },
   setMuted(m) { this.muted = m; save.muted = m; persist(); if (this.master) this.master.gain.value = m ? 0 : 0.6; },
   ok() { return this.ctx && !this.muted && this.ctx.state === 'running'; },
@@ -76,3 +91,10 @@ const Sfx = {
   tick() { this.tone('square', 1320, 1320, 0.03, 0.05); },
   click() { this.tone('square', 660, 660, 0.03, 0.05); },
 };
+
+// Browsers only allow audio to start from "activation" events. A touch pointerdown doesn't count
+// (touchend/pointerup/click do), and iOS can leave the context 'interrupted' after backgrounding,
+// so retry on every gesture until it's running.
+for (const ev of ['pointerup', 'touchend', 'click', 'keydown']) {
+  window.addEventListener(ev, () => { if (!Sfx.ctx || Sfx.ctx.state !== 'running') Sfx.unlock(); }, { capture: true, passive: true });
+}
