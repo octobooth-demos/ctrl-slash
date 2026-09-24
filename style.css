@@ -180,6 +180,9 @@ button { font: inherit; color: inherit; -webkit-tap-highlight-color: transparent
 @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 .tag { margin: 12px 0 0; font-size: clamp(11px, 3.1vw, 14px); color: var(--comment); opacity: 0; animation: rise .5s .75s forwards; }
 .tag .strong { color: #8fcf6f; font-style: italic; }
+.fanart { margin: 4px 0 0; font-size: 10px; letter-spacing: .06em; color: #6e7681; opacity: 0; animation: rise .5s .8s forwards; }
+.fanart-note { margin: 0; padding: 0 12px 12px; font-size: 11px; line-height: 1.5; color: var(--dim); }
+.loading small { display: block; margin-top: 10px; font-family: var(--mono); font-size: 10px; letter-spacing: .08em; color: #6e7681; text-align: center; }
 .menu-meta { margin-top: 12px; display: flex; gap: 16px; font-size: 11px; letter-spacing: .12em; color: var(--dim); opacity: 0; animation: rise .5s .85s forwards; }
 .menu-meta b { color: #fff; }
 .m-equip { color: var(--t-leg); }

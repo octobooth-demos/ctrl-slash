@@ -29,4 +29,4 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-"Visual Studio Code" and "VS Code" are trademarks of Microsoft Corporation. This project is a fan-made game and is not an official Microsoft product.
+"Visual Studio Code" and "VS Code" are trademarks of Microsoft Corporation. CTRL+SLASH is unofficial fan art. It is not made, affiliated with, or endorsed by Microsoft.

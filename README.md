@@ -2,6 +2,8 @@
 
 A Fruit Ninja-style slicer starring Buddy, the pixel pet from VS Code chat, and all 17 of its hats. Swipe to slice. Don't touch `rm -rf`.
 
+> Unofficial fan art. Not made, affiliated with, or endorsed by Microsoft or the VS Code team.
+
 **Play it:** https://digitarald.github.io/ctrl-slash/
 
 <p>
@@ -69,4 +71,4 @@ Then open http://localhost:8000. Pushes to `main` deploy to GitHub Pages through
 
 Code is MIT, see [LICENSE](LICENSE). The Buddy and hat sprites come from [microsoft/vscode](https://github.com/microsoft/vscode) under its MIT license, see [assets/NOTICE.md](assets/NOTICE.md).
 
-This is a fan project and not an official Microsoft product.
+CTRL+SLASH is unofficial fan art and not a Microsoft product. "Visual Studio Code" and "VS Code" are trademarks of Microsoft Corporation.
